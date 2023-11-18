@@ -8,13 +8,6 @@ import json
 images_tags = []
 
 
-def setup_logging():
-    logging.basicConfig(
-        level=logging.INFO,
-        format='%(asctime)s - %(levelname)s - %(message)s'
-    )
-
-
 def list_pod_images():
     config.load_kube_config()
 
@@ -53,7 +46,6 @@ def list_cronjob_images():
 
 
 def k8s():
-    setup_logging()
     list_cronjob_images()
     list_pod_images()
     print(len(images_tags))
