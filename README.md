@@ -17,5 +17,9 @@ kubectl get po --all-namespaces
 ```
 
 ```bash
+python3 main.py
+```
+
+```bash
 ~/go/bin/kind delete cluster
 ```
