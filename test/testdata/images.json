@@ -1,0 +1,77 @@
+[
+  {
+    "image": "docker.io/library/busybox",
+    "digest": "141c253bc4c3fd0a201d32dc1f493bcf3fff003b6df416dea4f41046e0f37d47",
+    "tag": "1.28"
+  },
+  {
+    "image": "docker.io/library/busybox",
+    "digest": "141c253bc4c3fd0a201d32dc1f493bcf3fff003b6df416dea4f41046e0f37d47",
+    "tag": "1.28"
+  },
+  {
+    "image": "docker.io/library/busybox",
+    "digest": "141c253bc4c3fd0a201d32dc1f493bcf3fff003b6df416dea4f41046e0f37d47",
+    "tag": "1.28"
+  },
+  {
+    "image": "registry.k8s.io/coredns/coredns",
+    "digest": "cbb01a7bd410dc08ba382018ab909a674fb0e48687f0c00797ed5bc34fcc6bb4",
+    "tag": "v1.11.1"
+  },
+  {
+    "image": "registry.k8s.io/coredns/coredns",
+    "digest": "cbb01a7bd410dc08ba382018ab909a674fb0e48687f0c00797ed5bc34fcc6bb4",
+    "tag": "v1.11.1"
+  },
+  {
+    "image": "registry.k8s.io/etcd",
+    "digest": "3861cfcd7c04ccac1f062788eca39487248527ef0c0cfd477a83d7691a75a899",
+    "tag": "3.5.12-0"
+  },
+  {
+    "image": "docker.io/kindest/kindnetd",
+    "digest": "ac1c61439df4625ba53a9ceaccb5eb07a830bdf942cc1c60535a4dd7e763d55f",
+    "tag": "v20240513-cd2ac642"
+  },
+  {
+    "image": "registry.k8s.io/kube-apiserver-amd64",
+    "digest": "595bbac7dd5875ee5a7c2c78763571b84e8666066190b815d4ffc9f91c5963ef",
+    "tag": "v1.30.2"
+  },
+  {
+    "image": "registry.k8s.io/kube-controller-manager-amd64",
+    "digest": "d129df42264227336850a3ecd99a09b4af9c16f04e0d95b113379859b9f8d322",
+    "tag": "v1.30.2"
+  },
+  {
+    "image": "registry.k8s.io/kube-proxy-amd64",
+    "digest": "2f082372b751058f581b5a2163e0b8d3058ff4a8d5b0b97b8e145e6f87882b16",
+    "tag": "v1.30.2"
+  },
+  {
+    "image": "registry.k8s.io/kube-scheduler-amd64",
+    "digest": "16af68c80df597a2c5aed3b6fef25bf08ca4ee63aaac95e9c89b5b7369c1f991",
+    "tag": "v1.30.2"
+  },
+  {
+    "image": "docker.io/kindest/local-path-provisioner",
+    "digest": "f250a35425c92d758d72d00d587ba0892e952fb7151c9cac6f7791409f376928",
+    "tag": "v20240513-b9bba138"
+  },
+  {
+    "image": "docker.io/library/busybox",
+    "digest": "141c253bc4c3fd0a201d32dc1f493bcf3fff003b6df416dea4f41046e0f37d47",
+    "tag": "1.28"
+  },
+  {
+    "image": "docker.io/library/busybox",
+    "digest": "141c253bc4c3fd0a201d32dc1f493bcf3fff003b6df416dea4f41046e0f37d47",
+    "tag": "1.28"
+  },
+  {
+    "image": "docker.io/library/busybox",
+    "digest": "141c253bc4c3fd0a201d32dc1f493bcf3fff003b6df416dea4f41046e0f37d47",
+    "tag": "1.28"
+  }
+]
