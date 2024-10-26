@@ -1,18 +1,22 @@
 import json
 import logging
+import os
 import requests
 from kubernetes import client, config
 from kubernetes.client.exceptions import ApiException
 import re
 
+K8S_IMAGE_DETERMINER_LOGGING_LEVEL = os.getenv(
+    "K8S_IMAGE_DETERMINER_LOGGING_LEVEL", logging.INFO
+)
 
 logger = logging.getLogger(__name__)
 
 
-def setup_logging():
+def setup_logging(level=logging.INFO):
     logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        level=level,
+        format="%(asctime)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s",
         handlers=[logging.StreamHandler()],
     )
 
@@ -73,19 +77,32 @@ def list_pods() -> dict:
         ret = v1.list_pod_for_all_namespaces()
         for pod in ret.items:
             logger.debug(
-                f"Namespace: {pod.metadata.namespace}, Pod name: {pod.metadata.name}"
+                f"Pod metadata Namespace: {pod.metadata.namespace}, Pod metadata name: {pod.metadata.name}, Pod spec containers: {pod.spec.containers}"
             )
-            for container_status in pod.status.container_statuses:
-                image = container_status.image
-                image_id = container_status.image_id
+            image_pull_policy = ""
+            for pod_spec_container in pod.spec.containers:
                 logger.debug(
-                    f"Container name: {container_status.name}, Container image: {image}, Image ID: {image_id}"
+                    f"pod_spec_container_image_pull_policy: {pod_spec_container.image_pull_policy}"
                 )
-                tag = extract_tag(image)
-                image = remove_tag(image)
-                image_id = extract_digest(image_id)
-                new_dict = {"image": image, "digest": image_id, "tag": tag}
-                dict_list.append(new_dict)
+                image_pull_policy = pod_spec_container.image_pull_policy
+            print("-------------------------->", image_pull_policy)
+            if image_pull_policy == "Always":
+                for container_status in pod.status.container_statuses:
+                    image = container_status.image
+                    image_id = container_status.image_id
+                    logger.debug(
+                        f"Container name: {container_status.name}, Container image: {image}, Image ID: {image_id}"
+                    )
+                    tag = extract_tag(image)
+                    image = remove_tag(image)
+                    image_id = extract_digest(image_id)
+                    new_dict = {
+                        "image": image,
+                        "digest": image_id,
+                        "tag": tag,
+                    }
+                    dict_list.append(new_dict)
+
     except ApiException as e:
         logger.error(
             "Exception when calling CoreV1Api->list_pod_for_all_namespaces: '%s'",
@@ -165,22 +182,19 @@ def construct_json(images: dict) -> str:
         ],
         indent=2,
     )
-    logger.debug("JSON data: " + json_data)
     return json_data
 
 
 def send_json_to_endpoint(json_string):
-    url = "http://localhost:5000/endpoint"
+    url = "http://localhost:9999/api/v1/scan/metrics"
 
     try:
         response = requests.post(
             url, data=json_string, headers={"Content-Type": "application/json"}
         )
-        response.raise_for_status()  # Raise an HTTPError for bad responses (4xx and 5xx)
+        response.raise_for_status()
 
-        # Log success
         logger.info("Request was successful.")
-        logger.info("Response JSON: %s", response.json())
     except requests.exceptions.HTTPError as http_err:
         if response.status_code == 500:
             logger.error("Internal Server Error occurred: %s", http_err)
@@ -197,7 +211,7 @@ def send_json_to_endpoint(json_string):
 
 
 def main():
-    setup_logging()
+    setup_logging(K8S_IMAGE_DETERMINER_LOGGING_LEVEL)
     load_kube_config()
     pod_images = list_pods()
     cron_job_images = list_cron_jobs()
